@@ -51,6 +51,7 @@
       background: linear-gradient(135deg, #FFF9E6 0%, #FFE8B8 100%);
       border-radius: 15px;
       z-index: 10;
+      cursor: pointer;
     }
 
     .card::before {
@@ -124,11 +125,11 @@
       }
     }
 
-    .card:hover .front {
+    .card.open .front {
       transform: perspective(800px) rotateY(-170deg);
     }
 
-    .card:hover .back {
+    .card.open .back {
       transform: perspective(800px) rotateY(-170deg);
       box-shadow: 7px 0px 15px 0px rgba(0, 0, 0, 0.4);
     }
@@ -145,7 +146,7 @@
       transform-origin: 0% 50%;
       transform: perspective(800px) rotateY(0deg);
       transition: all 0.8s ease-in-out;
-      background: linear-gradient(135deg, #FFE5B4 0%, #FFD89B 100%);
+      background: url("images/photo.jpg") center center / cover no-repeat;
       box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
     }
 
@@ -667,15 +668,6 @@
       margin: 25px auto;
     }
 
-    .card .back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 15px;
-      transform-origin: 0% 50%;
-      background: url("images/photo.jpg") center center / cover no-repeat;
-    }
-
     /* 中文手寫字體 */
     .chinese {
       font-family: "Cactus Classical Serif", serif;
@@ -683,6 +675,7 @@
       line-height: 1.65;
       font-weight: 400;
       color: #5D4E37;
+      margin: 0 0 15px 0;
     }
 
     /* 英文花體 */
@@ -758,15 +751,21 @@
       </div>
     </div>
     <div class="text-container">
-      <h5 class="chinese"> Dear 于芩～</h5>
-      <h5 class="chinese"> 有成功打開嗎..希望有啦哈哈哈
-        每年我都認真在過的你的生日又到來了，不知不覺已經是一起慶祝的第六次了（嗎）（數不清了）
-
-      </h5>
-      <h6 class="chinese"> p.s. 雖然有點陽春..但盡力了..哈..等我有能力下次一定做更好的..</h6>
-      </p>
+      <h5 class="chinese">Dear 于芩～</h5>
+      <h5 class="chinese">有成功打開嗎..希望有啦哈哈哈</h5>
+      <h5 class="chinese">每年我都認真在過的你的生日又到來了，不知不覺已經是一起慶祝的第六次了（嗎）（數不清了）</h5>
+      <h6 class="chinese">p.s. 雖然有點陽春..但盡力了..哈..等我有能力下次一定做更好的..</h6>
     </div>
   </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const card = document.querySelector('.card');
+      card.addEventListener('click', function() {
+        this.classList.toggle('open');
+      });
+    });
+  </script>
 </body>
 
 </html>
