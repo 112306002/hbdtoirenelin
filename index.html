@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Card</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nobile:ital@0;1&family=Great+Vibes&family=Cactus+Classical+Serif&display=swap"
+    rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      animation: shimmer 3s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+
+      0%,
+      100% {
+        opacity: 0.5;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    .card {
+      position: relative;
+      width: 350px;
+      height: 500px;
+      border: none;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      background: linear-gradient(135deg, #FFF9E6 0%, #FFE8B8 100%);
+      border-radius: 15px;
+      z-index: 10;
+      cursor: pointer;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      background: linear-gradient(45deg, #FFD700, #FFA500, #FF69B4, #87CEEB, #FFD700);
+      background-size: 300% 300%;
+      border-radius: 15px;
+      z-index: -1;
+      animation: gradientShift 3s ease infinite;
+      opacity: 0;
+    }
+
+    @keyframes gradientShift {
+
+      0%,
+      100% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    .card .front {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      border: none;
+      border-radius: 15px;
+      backface-visibility: hidden;
+      background: linear-gradient(135deg, #FFF9E6 0%, #FFE8B8 50%, #FFD89B 100%);
+      transform-style: preserve-3d;
+      transform-origin: 0% 50%;
+      transform: perspective(800px) rotateY(0deg);
+      transition: all 0.8s ease-in-out;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 20px;
+      box-sizing: border-box;
+      overflow: hidden;
+      box-shadow: inset 0 0 50px rgba(255, 215, 0, 0.3);
+    }
+
+    .card .front::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+      animation: rotate 20s linear infinite;
+      top: -50%;
+      left: -50%;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .card.open .front {
+      transform: perspective(800px) rotateY(-170deg);
+    }
+
+    .card.open .back {
+      transform: perspective(800px) rotateY(-170deg);
+      box-shadow: 7px 0px 15px 0px rgba(0, 0, 0, 0.4);
+    }
+
+    .card .back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 15px;
+      margin: 0;
+      backface-visibility: visible;
+      transform-style: preserve-3d;
+      transform-origin: 0% 50%;
+      transform: perspective(800px) rotateY(0deg);
+      transition: all 0.8s ease-in-out;
+      background: url("images/photo.jpg") center center / cover no-repeat;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.1);
+    }
+
+    .front-content {
+      text-align: center;
+      width: 100%;
+      position: relative;
+      z-index: 5;
+    }
+
+    .decorative-border {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      border: 3px solid rgba(218, 165, 32, 0.4);
+      border-radius: 10px;
+      pointer-events: none;
+    }
+
+    .decorative-border::before,
+    .decorative-border::after {
+      content: '✦';
+      position: absolute;
+      font-size: 20px;
+      color: #DAA520;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+
+    .decorative-border::before {
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .decorative-border::after {
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    @keyframes twinkle {
+
+      0%,
+      100% {
+        opacity: 0.3;
+        transform: translateX(-50%) scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.2);
+      }
+    }
+
+    .corner-ornament {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      font-size: 24px;
+      color: #DAA520;
+      opacity: 0.6;
+    }
+
+    .corner-ornament.top-left {
+      top: 10px;
+      left: 10px;
+      content: '⋆';
+    }
+
+    .corner-ornament.top-right {
+      top: 10px;
+      right: 10px;
+      content: '⋆';
+    }
+
+    .corner-ornament.bottom-left {
+      bottom: 10px;
+      left: 10px;
+      content: '⋆';
+    }
+
+    .corner-ornament.bottom-right {
+      bottom: 10px;
+      right: 10px;
+      content: '⋆';
+    }
+
+    .calligraphy-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 3.5em;
+      line-height: 1.3;
+      color: #8B6914;
+      margin-bottom: 20px;
+      font-weight: 700;
+      text-align: center;
+      text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.2);
+      animation: glow 2s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+
+      0%,
+      100% {
+        text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.2);
+      }
+
+      50% {
+        text-shadow: 2px 2px 6px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.4);
+      }
+    }
+
+    .cake-container {
+      width: 220px;
+      height: 220px;
+      margin: 20px auto;
+      position: relative;
+    }
+
+    .cake {
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+
+    .cake-layer {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .layer-bottom {
+      bottom: 0;
+      width: 180px;
+      height: 60px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8F8FF 100%);
+      border-radius: 12px 12px 10px 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15),
+        inset 0 2px 5px rgba(255, 255, 255, 0.8);
+      border: 3px solid #E8E8E8;
+    }
+
+    .layer-top {
+      bottom: 55px;
+      width: 140px;
+      height: 55px;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8F8FF 100%);
+      border-radius: 12px 12px 10px 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15),
+        inset 0 2px 5px rgba(255, 255, 255, 0.8);
+      border: 3px solid #E8E8E8;
+    }
+
+    .frosting-bottom {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 170px;
+      height: 15px;
+      border-bottom: 3px solid #4A90E2;
+      border-radius: 0 0 50% 50%;
+    }
+
+    .frosting-bottom::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      border: 3px solid #4A90E2;
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+      bottom: 0;
+      left: 0;
+      clip-path: polygon(0% 0%, 6% 60%, 12% 0%, 18% 60%, 24% 0%, 30% 60%,
+          36% 0%, 42% 60%, 48% 0%, 54% 60%, 60% 0%, 66% 60%,
+          72% 0%, 78% 60%, 84% 0%, 90% 60%, 96% 0%, 100% 0%,
+          100% 100%, 0% 100%);
+    }
+
+    .frosting-top {
+      position: absolute;
+      bottom: 8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 15px;
+      border-bottom: 3px solid #4A90E2;
+      border-radius: 0 0 50% 50%;
+    }
+
+    .frosting-top::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 20px;
+      border: 3px solid #4A90E2;
+      border-top: none;
+      border-radius: 0 0 50% 50%;
+      bottom: 0;
+      left: 0;
+      clip-path: polygon(0% 0%, 7% 60%, 14% 0%, 21% 60%, 28% 0%, 35% 60%,
+          42% 0%, 49% 60%, 56% 0%, 63% 60%, 70% 0%, 77% 60%,
+          84% 0%, 91% 60%, 98% 0%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .candles {
+      position: absolute;
+      bottom: 105px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 20px;
+    }
+
+    .candle {
+      width: 8px;
+      height: 40px;
+      background: linear-gradient(to bottom, #87CEEB 0%, #4A90E2 100%);
+      border-radius: 3px 3px 0 0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 3px rgba(255, 255, 255, 0.5);
+      position: relative;
+    }
+
+    .candle::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 12px;
+      height: 3px;
+      background: #FFD700;
+      border-radius: 50%;
+    }
+
+    .flame {
+      width: 12px;
+      height: 18px;
+      background: radial-gradient(ellipse at center, #FFF8DC 0%, #FFE55C 30%, #FFB347 70%, #FF6B35 100%);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      position: relative;
+      top: -18px;
+      left: -2px;
+      animation: flicker 0.4s infinite alternate;
+      box-shadow: 0 0 20px rgba(255, 200, 0, 0.8),
+        0 0 40px rgba(255, 150, 0, 0.4);
+    }
+
+    @keyframes flicker {
+      0% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+
+      100% {
+        transform: scale(1.15) translateY(-3px);
+        opacity: 0.9;
+      }
+    }
+
+    .sparkle-lines {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+
+    .confetti {
+      position: absolute;
+      border-radius: 50%;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+
+      50% {
+        transform: translateY(-10px) rotate(180deg);
+      }
+    }
+
+    .confetti.gold {
+      background: linear-gradient(45deg, #FFD700, #FFA500);
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .confetti.pink {
+      background: linear-gradient(45deg, #FF69B4, #FF1493);
+      box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+    }
+
+    .confetti.blue {
+      background: linear-gradient(45deg, #87CEEB, #4169E1);
+      box-shadow: 0 0 10px rgba(135, 206, 235, 0.5);
+    }
+
+    .confetti.white {
+      background: linear-gradient(45deg, #FFFFFF, #F0F0F0);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+
+    .c1 {
+      top: 25px;
+      left: 25px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 0s;
+    }
+
+    .c2 {
+      top: 40px;
+      left: 35px;
+      width: 6px;
+      height: 12px;
+      animation-delay: 0.5s;
+    }
+
+    .c3 {
+      top: 60px;
+      left: 20px;
+      width: 6px;
+      height: 6px;
+      animation-delay: 1s;
+    }
+
+    .c4 {
+      top: 30px;
+      left: 55px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 1.5s;
+    }
+
+    .c5 {
+      top: 50px;
+      left: 65px;
+      width: 6px;
+      height: 10px;
+      animation-delay: 2s;
+    }
+
+    .c6 {
+      top: 25px;
+      right: 25px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 0.3s;
+    }
+
+    .c7 {
+      top: 45px;
+      right: 20px;
+      width: 6px;
+      height: 12px;
+      animation-delay: 0.8s;
+    }
+
+    .c8 {
+      top: 65px;
+      right: 35px;
+      width: 6px;
+      height: 6px;
+      animation-delay: 1.3s;
+    }
+
+    .c9 {
+      top: 30px;
+      right: 55px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 1.8s;
+    }
+
+    .c10 {
+      top: 50px;
+      right: 45px;
+      width: 6px;
+      height: 10px;
+      animation-delay: 2.3s;
+    }
+
+    .c11 {
+      bottom: 60px;
+      left: 20px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 0.2s;
+    }
+
+    .c12 {
+      bottom: 75px;
+      left: 30px;
+      width: 6px;
+      height: 12px;
+      animation-delay: 0.7s;
+    }
+
+    .c13 {
+      bottom: 90px;
+      left: 25px;
+      width: 6px;
+      height: 6px;
+      animation-delay: 1.2s;
+    }
+
+    .c14 {
+      bottom: 70px;
+      left: 45px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 1.7s;
+    }
+
+    .c15 {
+      bottom: 60px;
+      right: 20px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 0.4s;
+    }
+
+    .c16 {
+      bottom: 80px;
+      right: 25px;
+      width: 6px;
+      height: 12px;
+      animation-delay: 0.9s;
+    }
+
+    .c17 {
+      bottom: 95px;
+      right: 35px;
+      width: 6px;
+      height: 6px;
+      animation-delay: 1.4s;
+    }
+
+    .c18 {
+      bottom: 70px;
+      right: 40px;
+      width: 8px;
+      height: 8px;
+      animation-delay: 1.9s;
+    }
+
+    .star {
+      position: absolute;
+      color: #FFD700;
+      font-size: 20px;
+      animation: twinkle 1.5s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+    }
+
+    .s1 {
+      top: 15px;
+      left: 40px;
+      animation-delay: 0s;
+    }
+
+    .s2 {
+      top: 20px;
+      right: 40px;
+      animation-delay: 0.5s;
+    }
+
+    .s3 {
+      bottom: 50px;
+      left: 30px;
+      animation-delay: 1s;
+    }
+
+    .s4 {
+      bottom: 55px;
+      right: 30px;
+      animation-delay: 1.5s;
+    }
+
+    .birthday-text {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.8em;
+      color: #8B6914;
+      font-weight: 700;
+      margin-top: 10px;
+      line-height: 1.2;
+      text-shadow: 2px 2px 4px rgba(255, 215, 0, 0.3);
+    }
+
+    .text-container {
+      width: 85%;
+      margin: auto;
+      padding-top: 50px;
+    }
+
+    .text-container #head {
+      font-family: 'Nobile', sans-serif;
+      font-size: 1.7em;
+      margin: 0 auto 30px auto;
+      text-align: center;
+      color: #8B6914;
+      font-weight: bold;
+    }
+
+    .text-container p {
+      font-size: 1.15em;
+      line-height: 1.6;
+      font-family: 'Nobile';
+      color: #5D4E37;
+      font-style: italic;
+      text-align: center;
+      margin: 25px auto;
+    }
+
+    /* 中文手寫字體 */
+    .chinese {
+      font-family: "Cactus Classical Serif", serif;
+      letter-spacing: 0.08em;
+      line-height: 1.65;
+      font-weight: 400;
+      color: #5D4E37;
+      margin: 0 0 15px 0;
+    }
+
+    /* 英文花體 */
+    .english {
+      font-family: "Great Vibes", cursive;
+      letter-spacing: 0.05em;
+      font-weight: 400;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <div class="back"></div>
+    <div class="front">
+      <div class="decorative-border"></div>
+      <div class="corner-ornament top-left">⋆</div>
+      <div class="corner-ornament top-right">⋆</div>
+      <div class="corner-ornament bottom-left">⋆</div>
+      <div class="corner-ornament bottom-right">⋆</div>
+
+      <div class="front-content">
+        <div class="calligraphy-text birthday-text">
+          Happy<br>
+          Birthday
+        </div>
+        <div class="cake-container">
+          <div class="sparkle-lines">
+            <div class="confetti gold c1"></div>
+            <div class="confetti pink c2"></div>
+            <div class="confetti blue c3"></div>
+            <div class="confetti white c4"></div>
+            <div class="confetti gold c5"></div>
+            <div class="confetti pink c6"></div>
+            <div class="confetti blue c7"></div>
+            <div class="confetti white c8"></div>
+            <div class="confetti gold c9"></div>
+            <div class="confetti pink c10"></div>
+            <div class="confetti blue c11"></div>
+            <div class="confetti white c12"></div>
+            <div class="confetti gold c13"></div>
+            <div class="confetti pink c14"></div>
+            <div class="confetti blue c15"></div>
+            <div class="confetti white c16"></div>
+            <div class="confetti gold c17"></div>
+            <div class="confetti pink c18"></div>
+
+            <div class="star s1">✦</div>
+            <div class="star s2">✦</div>
+            <div class="star s3">✦</div>
+            <div class="star s4">✦</div>
+          </div>
+          <div class="cake">
+            <div class="candles">
+              <div class="candle">
+                <div class="flame"></div>
+              </div>
+              <div class="candle">
+                <div class="flame"></div>
+              </div>
+              <div class="candle">
+                <div class="flame"></div>
+              </div>
+            </div>
+            <div class="cake-layer layer-top">
+              <div class="frosting-top"></div>
+            </div>
+            <div class="cake-layer layer-bottom">
+              <div class="frosting-bottom"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-container">
+      <h6 class="chinese">Dear 于芩～</h6>
+      <h6 class="chinese">有成功打開嗎..希望有啦哈哈哈：）每年我都認真在過的你的生日又到來了，不知不覺已經是一起慶祝的第六次了（嗎）（數不清了）</h6>
+      <h6 class="chinese">還是要說很謝謝你這認識的三千多多多天裡，聽了我無數次重複的抱怨、陪我經歷了有笑有淚的各個時刻，還有好多好多個在搖搖椅晃呀晃的夜晚。我覺得能遇到一個這麼懂我的人，真的很幸運。</h6>
+      <h6 class="chinese">這次也想跟你說，這麽多年來我看過你最挫折的樣子，也看過你閃閃發光的瞬間，我知道你遠比自己想像的更強大。如果長大讓你感到焦慮，那別忘了回頭看看，我也會陪你一起迷惘、一起找答案。不用去感到害怕不安，因為你從來都不是一個人。未來的路可能還很模糊，但我很確定我會一直都在你身邊（哈）。不要給自己太大壓力，照著你的節奏走就好啦！</h6>
+      <h6 class="chinese">生日快樂我的寶 希望你的所有願望、所有目標都實現！！天天開心！！</h6>
+      <h6 class="chinese">from. 永遠比你大一點點的愛愛</h6>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const card = document.querySelector('.card');
+      card.addEventListener('click', function() {
+        this.classList.toggle('open');
+      });
+    });
+  </script>
+</body>
+
+</html>
